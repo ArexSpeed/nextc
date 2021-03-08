@@ -1,15 +1,11 @@
 import {server} from '../config'
-import Head from 'next/head'
 import ArticleList from '../components/ArticleList'
 
 export default function Home({articles}) {
 
   return (
     <>
-      <Head>
-        <title>Next Course</title>
-        <meta name="keywords" content="web development" />
-      </Head>
+
       <ArticleList articles={articles} />
     </>
   )

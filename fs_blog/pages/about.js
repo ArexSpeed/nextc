@@ -1,13 +1,13 @@
 import Layout from 'components/Layout'
 import Head from 'next/head'
 
-export default function Home() {
+export default function About(){
   return (
     <Layout>
-      <Head>
-        <title>Blog - posts</title>
+     <Head>
+        <title>About me</title>
       </Head>
-     <p>Blog</p>
+      <p>About me</p>
     </Layout>
   )
 }

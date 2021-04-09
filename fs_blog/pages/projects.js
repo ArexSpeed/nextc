@@ -1,7 +1,17 @@
 import Layout from 'components/Layout'
 import Head from 'next/head'
+import {getList} from 'lib/markdownParser'
 
-export default function Projects(){
+export const getStaticProps = () => {
+  const projects = getList('_projects')
+
+  return {
+    props : {projects}
+  }
+}
+
+export default function Projects({projects}){
+  console.log('projects', projects)
   return (
     <Layout>
       <Head>

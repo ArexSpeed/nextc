@@ -3,7 +3,7 @@ import {join} from 'path'
 import matter from 'gray-matter'
 import remark from 'remark';
 import html from 'remark-html';
-//import prism from 'remark-prism';
+import prism from 'remark-prism';
 
 export const getList = (path) => {
   const directory = join(process.cwd(), path);
@@ -31,7 +31,7 @@ export const getFileBySlug = async (path, slug) => {
   const { data, content: markdownContent } = matter(fileContents);
   let content = '';
   if (markdownContent) {
-    content = await remark().use(html).process(markdownContent);
+    content = await remark().use(html).use(prism).process(markdownContent);
     content = content.toString();
   }
 

@@ -1,11 +1,11 @@
 import Layout from 'components/Layout'
 import Head from 'next/head'
-import {getList} from 'lib/markdownParser'
 import Image from 'next/image';
 import Link from 'next/link'
+import { getListOfArticles } from 'services/articles';
 
 export const getStaticProps = () => {
-  const articles = getList('_articles')
+  const articles = getListOfArticles('_articles')
 
   return {
     props: {articles}

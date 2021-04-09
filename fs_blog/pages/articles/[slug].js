@@ -1,10 +1,9 @@
 import Layout from 'components/Layout';
 import Head from 'next/head';
-import {getFileBySlug, getList} from 'lib/markdownParser'
-//import { getListOfArticles, getArticle } from 'services/articles';
+import { getListOfArticles, getArticle } from 'services/articles';
 
 export const getStaticPaths = async () => {
-  const articles = getList('_articles');
+  const articles = getListOfArticles('_articles');
 
   return {
     paths: articles.map((art) => ({ params: { slug: art.slug } })),
@@ -14,7 +13,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (req) => {
   const { slug } = req.params;
-  const article = await getFileBySlug('_articles',slug);
+  const article = await getArticle(slug);
 
   return {
     props: { article }

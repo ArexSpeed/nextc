@@ -10,11 +10,15 @@ export default async (req, res) => {
       break;
     }
     case 'POST': {
-      const payload = req.body;
-      console.log('payload on backend', payload);
-      const offer = await createOffer(payload);
-      console.log('offer be', offer);
-      res.status(200).json({ status: 'created', offer });
+      try {
+        const payload = req.body;
+        console.log('payload on backend', payload);
+        const offer = await createOffer(payload);
+        console.log('offer be', offer);
+        res.status(200).json({ status: 'created', offer });
+      } catch (error) {
+        res.status(422).json({ status: 'not_created', error });
+      }
 
       break;
     }

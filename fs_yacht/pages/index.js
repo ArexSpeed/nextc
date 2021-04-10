@@ -1,7 +1,9 @@
 import BaseLayout from 'components/BaseLayout';
 import Link from 'next/link';
 import Image from 'next/image';
+import useSWR from 'swr'; //lib - hook
 import getRecentOffers from 'services/offers/getRecent';
+import { jsonFetcher } from 'utils/index';
 
 export const getStaticProps = async () => {
   const offers = await getRecentOffers(4);
@@ -14,16 +16,7 @@ export const getStaticProps = async () => {
 };
 
 export default function Home({ offers }) {
-  console.log('ofers', offers);
-  // const data = [
-  //   {
-  //     id: 1,
-  //     title: 'Formula 260 SS',
-  //     category: 'rent',
-  //     description:
-  //       'This 260 SS has been meticulously maintained and is in excellent condition! We always keep it in dry storage when not in use. Its very clean, and ready for the summer!'
-  //   }
-  // ];
+  const { data } = useSWR('/api/offers', jsonFetcher, { initialData: offers });
 
   return (
     <BaseLayout>
@@ -42,7 +35,7 @@ export default function Home({ offers }) {
             </p>
           </div>
           <div className="flex flex-wrap -m-4">
-            {offers.map((offer) => (
+            {data.map((offer) => (
               <div key={offer.id} className="xl:w-1/4 md:w-1/2 p-4 cursor-pointer">
                 <Link href={`/offers/${offer.id}`}>
                   <div className="bg-gray-100 p-6 rounded-lg">

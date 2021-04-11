@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { signOut, useSession } from 'next-auth/client';
 
 const TopNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [session, loading] = useSession();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  console.log(session, 'session');
 
   return (
     <nav className="flex items-center bg-gray-800 p-3 flex-wrap">
@@ -38,6 +42,22 @@ const TopNavigation = () => {
               <span>Submit offer</span>
             </a>
           </Link>
+          {session && (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <button
+              onClick={signOut}
+              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+              <span>Logout</span>
+            </button>
+          )}
+
+          {!session && !loading && (
+            <Link href="/user/signin">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+                <span>Sign in</span>
+              </a>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

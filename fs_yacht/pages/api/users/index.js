@@ -9,7 +9,8 @@ export default async (req, res) => {
 
         res.status(200).json({ status: 'created', user });
       } catch (error) {
-        res.status(422).json({ status: 'not_created', error });
+        res.status(422).json({ status: 'not_created', error: error.message });
+        console.log(error);
       }
       break;
     }

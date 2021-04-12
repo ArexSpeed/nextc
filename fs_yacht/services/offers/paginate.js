@@ -3,11 +3,10 @@ export default async (offset, category) => {
   if (offset) {
     apiUrl += `&offset=${offset}`;
   }
-  // dodanie wyszukiwania po kategoriach lub cokolwiek innego
   if (category) {
     apiUrl += '&' + encodeURI(`filterByFormula=(category="${category}")`);
   }
-  // przekazanie tokena z airtable
+
   const response = await fetch(apiUrl, {
     headers: { Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}` }
   });

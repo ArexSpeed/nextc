@@ -1,9 +1,9 @@
 import BaseLayout from 'components/BaseLayout';
 import Link from 'next/link';
 import Image from 'next/image';
-import useSWR from 'swr'; //lib - hook
+import useSWR from 'swr';
 import getRecentOffers from 'services/offers/getRecent';
-import { jsonFetcher } from 'utils/index';
+import { jsonFetcher } from 'utils';
 
 export const getStaticProps = async () => {
   const offers = await getRecentOffers(4);

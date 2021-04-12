@@ -21,6 +21,7 @@ const checkEmail = async (email) => {
 const create = async (payload) => {
   const { email, fullName, password } = await schema.validateAsync(payload);
   await checkEmail(email);
+
   const passwordSalt = crypto.randomBytes(16).toString('hex');
   const passwordHash = crypto
     .pbkdf2Sync(password, passwordSalt, 1000, 64, `sha512`)
@@ -36,6 +37,7 @@ const create = async (payload) => {
       }
     }
   ]);
+
   return user;
 };
 

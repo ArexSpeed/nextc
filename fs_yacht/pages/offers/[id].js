@@ -1,10 +1,10 @@
 import BaseLayout from 'components/BaseLayout';
 import getRecentOffers from 'services/offers/getRecent';
 import getOffer from 'services/offers/get';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
 export const getStaticPaths = async () => {
-  const offers = await getRecentOffers(4);
+  const offers = await getRecentOffers(2);
 
   return {
     paths: offers.map((offer) => ({ params: { id: String(offer.id) } })),
@@ -16,7 +16,7 @@ export const getStaticProps = async ({ params }) => {
   const offer = await getOffer(params.id);
 
   return {
-    revalidate: 30, //rebuild for every 30 sec
+    revalidate: 30,
     props: {
       offer
     }
@@ -25,13 +25,15 @@ export const getStaticProps = async ({ params }) => {
 
 export default function OfferPage({ offer }) {
   const router = useRouter();
+
   if (router.isFallback) {
     return (
       <BaseLayout>
-        <div>Loading ...</div>
+        <div>Loading...</div>
       </BaseLayout>
     );
   }
+
   return (
     <BaseLayout>
       <section className="text-gray-600 body-font overflow-hidden">

@@ -1,8 +1,6 @@
-//zwraca ostatnie elementy z db
-
 import airDB from 'services/airtableClient';
 
-const getRecentOffers = async (maxRecords) => {
+const getRecent = async (maxRecords) => {
   const offers = await airDB('offers')
     .select({
       sort: [{ field: 'id', direction: 'desc' }],
@@ -14,4 +12,4 @@ const getRecentOffers = async (maxRecords) => {
   return offers.map((offer) => offer.fields);
 };
 
-export default getRecentOffers;
+export default getRecent;

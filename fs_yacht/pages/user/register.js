@@ -21,7 +21,7 @@ export default function UserNew() {
     };
 
     if (payload.password !== form.get('passwordConfirm')) {
-      setError('Given pass not match!');
+      setError('Given passwords not match');
       setFormProcessing(false);
       return;
     }

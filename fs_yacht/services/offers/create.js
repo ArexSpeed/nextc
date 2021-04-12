@@ -1,4 +1,4 @@
-import airDB from 'services/airtableClient'; //export kluczy z airtabale
+import airDB from 'services/airtableClient';
 import Joi from 'joi';
 
 const schema = Joi.object({
@@ -10,16 +10,18 @@ const schema = Joi.object({
   price: Joi.number().greater(0).required()
 });
 
-const create = async (payload) => {
-  const validateOffer = await schema.validateAsync(payload);
+const create = async (payload, userId) => {
+  const validatedOffer = await schema.validateAsync(payload);
   const offer = await airDB('offers').create([
     {
       fields: {
-        ...validateOffer,
+        ...validatedOffer,
+        users: [userId],
         status: 'inactive'
       }
     }
   ]);
+
   return offer;
 };
 

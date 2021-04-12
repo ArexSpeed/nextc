@@ -25,7 +25,6 @@ export default async (req, res) => {
         res.status(422).json({ status: 'not_created', error });
       }
 
-
       break;
     }
     default:

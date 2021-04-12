@@ -1,7 +1,14 @@
 import createdUser from 'services/users/create';
+import getUsers from 'services/users/get';
 
 export default async (req, res) => {
   switch (req.method) {
+    case 'GET': {
+      const users = await getUsers();
+      res.status(200).json(users);
+
+      break;
+    }
     case 'POST': {
       try {
         const payload = req.body;

@@ -5,5 +5,5 @@ const isAuthorized = (offer, session) => {
   //zwrocic domyslnie false
   return false;
 };
-
+//funcje mozna uzywac i po frontendzie i backend
 export default isAuthorized;

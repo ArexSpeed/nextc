@@ -85,9 +85,14 @@ export default function OfferPage({ offer }) {
               src="https://dummyimage.com/400x400"
             />
             {isAuthorized(offer, session) && (
-              <p>
-                <Link href={`/offers/${offer.id}/edit`}>Edit this offer</Link>
-              </p>
+              <>
+                <p>
+                  <Link href={`/offers/${offer.id}/edit`}>Edit this offer</Link>
+                </p>
+                <p>
+                  <Link href={`/offers/${offer.id}/highlight`}>Highlight this offer</Link>
+                </p>
+              </>
             )}
           </div>
         </div>

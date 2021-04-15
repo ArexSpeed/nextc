@@ -28,12 +28,21 @@ export default function OfferEdit({ offer }) {
   const [error, setError] = useState();
   const [formProcessing, setFormProcessing] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(offer.imageUrl);
+  const [imageError, setImageError] = useState(false);
   const router = useRouter();
 
   //temp wyswietlanie image
   const handleImagePreview = (e) => {
     const url = window.URL.createObjectURL(e.target.files[0]);
+    const form = new FormData(offerForm.current);
+    const picture = form.get('picture');
+    if (picture.size > 500000) {
+      setImageError(true);
+      return;
+    }
+    console.log(picture, 'picture one');
     console.log(`url`, url);
+    setImageError(false);
     setImagePreviewUrl(url);
   };
 
@@ -54,8 +63,11 @@ export default function OfferEdit({ offer }) {
     };
 
     if (form.get('picture')) {
-      const file = await uploadImage(form.get('picture'));
-      payload.imageUrl = file.secure_url;
+      const picture = form.get('picture');
+      if (picture.size < 500000) {
+        const file = await uploadImage(picture);
+        payload.imageUrl = file.secure_url;
+      }
     }
 
     const response = await fetch(`/api/offers/${offer.id}`, {
@@ -182,6 +194,7 @@ export default function OfferEdit({ offer }) {
                 </div>
               )}
               <div className="p-2 w-full">
+                {imageError && <p>Image is too big!</p>}
                 <div className="relative">
                   <label htmlFor="picture" className="leading-7 text-sm text-gray-600">
                     Picture

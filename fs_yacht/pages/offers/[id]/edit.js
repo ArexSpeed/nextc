@@ -178,7 +178,7 @@ export default function OfferEdit({ offer }) {
               </div>
               {imagePreviewUrl && (
                 <div className="p-2 w-full">
-                  <img src={imagePreviewUrl} className="rounded" />
+                  <img src={imagePreviewUrl} alt="" className="rounded" />
                 </div>
               )}
               <div className="p-2 w-full">

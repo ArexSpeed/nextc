@@ -4,6 +4,7 @@ import getOffer from 'services/offers/get';
 import isAuthorized from 'services/offers/isAuthorized';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/client';
 
 export const getStaticPaths = async () => {
@@ -79,11 +80,18 @@ export default function OfferPage({ offer }) {
                 </button>
               </div>
             </div>
-            <img
-              alt="ecommerce"
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-              src="https://dummyimage.com/400x400"
-            />
+            {offer.imageUrl ? (
+              <div className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center">
+                <Image src={offer.imageUrl} width={800} height={800} className="rounded" />
+              </div>
+            ) : (
+              <img
+                alt="ecommerce"
+                className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+                src="https://dummyimage.com/400x400"
+              />
+            )}
+
             {isAuthorized(offer, session) && (
               <>
                 <p>

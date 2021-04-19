@@ -22,7 +22,9 @@ export const getStaticProps = async ({ params }) => {
   return {
     revalidate: 30,
     props: {
-      offer
+      offer,
+      metaTitle: offer.title,
+      metaDescription: offer.description
     }
   };
 };
@@ -48,7 +50,7 @@ export default function OfferPage({ offer }) {
               <h2 className="text-sm title-font text-gray-500 tracking-widest">{offer.category}</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">{offer.title}</h1>
               <div className="flex mb-4">
-                <p className="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
+                <p className="flex-grow text-indigo-900 border-b-2 border-indigo-500 py-2 text-lg px-1">
                   Description
                 </p>
               </div>
@@ -67,7 +69,9 @@ export default function OfferPage({ offer }) {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   {offer.mobile}
                 </span>
-                <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                <button
+                  aria-label="Mark as favourite"
+                  className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
                     strokeLinecap="round"
@@ -82,7 +86,13 @@ export default function OfferPage({ offer }) {
             </div>
             {offer.imageUrl ? (
               <div className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center">
-                <Image src={offer.imageUrl} width={800} height={800} className="rounded" />
+                <Image
+                  src={offer.imageUrl}
+                  alt={`Preview photo of ${offer.title}`}
+                  width={800}
+                  height={800}
+                  className="rounded"
+                />
               </div>
             ) : (
               <img

@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/client';
 import { useState } from 'react';
 import classNames from 'classnames';
 
 const Navigation = () => {
   const [isNavOpen, setNavOpen] = useState(false);
+  const [session, loading] = useSession();
 
   return (
     <section className="container mx-auto">
@@ -31,11 +33,20 @@ const Navigation = () => {
             </a>
           </li>
         </ul>
-        <Link href="/login">
-          <a className="hidden lg:inline-block py-2 px-6 bg-green-500 hover:bg-green-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200">
-            Sign in
-          </a>
-        </Link>
+        {!session && !loading && (
+          <Link href="/login">
+            <a className="hidden lg:inline-block py-2 px-6 bg-green-500 hover:bg-green-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200">
+              Sign in
+            </a>
+          </Link>
+        )}
+        {session && !loading && (
+          <Link href="/">
+            <a className="hidden lg:inline-block py-2 px-6 bg-green-500 hover:bg-green-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200">
+              {session.user.email}
+            </a>
+          </Link>
+        )}
       </nav>
       <div className={classNames(['navbar-menu', 'relative', 'z-50'], { hidden: !isNavOpen })}>
         <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
@@ -72,11 +83,20 @@ const Navigation = () => {
           </div>
           <div className="mt-auto">
             <div className="pt-6">
-              <Link href="/login">
-                <a className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-green-600 hover:bg-green-700 rounded-l-xl rounded-t-xl">
-                  Sign In
-                </a>
-              </Link>
+              {!session && !loading && (
+                <Link href="/login">
+                  <a className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-green-600 hover:bg-green-700 rounded-l-xl rounded-t-xl">
+                    Sign In
+                  </a>
+                </Link>
+              )}
+              {session && !loading && (
+                <button
+                  onClick={signOut}
+                  className="w-full block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-gray-500 hover:bg-green-700 rounded-l-xl rounded-t-xl">
+                  Logout
+                </button>
+              )}
             </div>
             <p className="my-4 text-xs text-center text-gray-400">
               <span>&copy; 2020 All rights reserved.</span>
@@ -95,7 +115,7 @@ const Footer = () => {
         <svg
           className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
           viewBox="0 0 10 10"
-          preserveaspectratio="none">
+          preserveAspectRatio="none">
           <polygon fill="currentColor" points="0 0 10 10 0 10"></polygon>
         </svg>
       </div>
@@ -103,7 +123,7 @@ const Footer = () => {
         <svg
           className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
           viewBox="0 0 10 10"
-          preserveaspectratio="none">
+          preserveAspectRatio="none">
           <polygon fill="currentColor" points="0 10 10 0 10 10"></polygon>
         </svg>
       </div>
@@ -118,7 +138,7 @@ const Footer = () => {
         <svg
           className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
           viewBox="0 0 10 10"
-          preserveaspectratio="none">
+          preserveAspectRatio="none">
           <polygon fill="currentColor" points="0 0 10 0 0 10"></polygon>
         </svg>
       </div>
@@ -126,7 +146,7 @@ const Footer = () => {
         <svg
           className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
           viewBox="0 0 10 10"
-          preserveaspectratio="none">
+          preserveAspectRatio="none">
           <polygon fill="currentColor" points="0 0 10 0 10 10"></polygon>
         </svg>
       </div>

@@ -44,10 +44,73 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
+  skill         String?
+  timezone      String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+  profilesChecked ProfileCheck[] @relation("ProfilesChecked")
+  targetChecks    ProfileCheck[] @relation("TargetProfiles")
+  filter Filter?
+  
+  ConversationUser ConversationUser[]
+  @@map("users")
+}
+
+model Filter {
+  id            Int       @id @default(autoincrement())
+  skill         String?
+  timezone      String?
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @default(now()) @map("updated_at")
 
-  @@map("users")
+  @@map("filters")
+}
+
+model ProfileCheck {
+  id            Int       @id @default(autoincrement())
+  user          User @relation("ProfilesChecked", fields: [userId], references: [id])
+  userId        Int @map("user_id")
+  targetUser    User @relation("TargetProfiles", fields: [targetId], references: [id])
+  targetId      Int @map("target_id")
+  liked         Boolean @default(false)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+
+  @@map("profile_checks")
+}
+
+model Conversation {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+
+  @@map("conversations")
+  ConversationUser ConversationUser[]
+}
+
+model ConversationUser {
+  id            Int       @id @default(autoincrement())
+  conversation Conversation @relation(fields: [userId], references: [id])
+  conversationId Int @map("conversation_id")
+  user          User @relation(fields: [userId], references: [id])
+  userId        Int @map("user_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+
+  @@map("conversation_users")
+}
+
+model ConversationMessage {
+  id            Int       @id @default(autoincrement())
+  content       String
+  conversationId Int @map("conversation_id")
+  userId        Int @map("user_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
+
+  @@map("conversation_messages")
 }
 
 model VerificationRequest {

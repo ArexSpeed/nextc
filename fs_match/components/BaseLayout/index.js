@@ -10,9 +10,10 @@ const Navigation = () => {
   return (
     <section className="container mx-auto">
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
-        <a className="text-3xl font-bold leading-none" href="/">
-          MakersMatch
-        </a>
+        <Link href="/">
+          <a className="text-3xl font-bold leading-none">MakersMatch</a>
+        </Link>
+
         <div className="lg:hidden">
           <button
             onClick={() => setNavOpen(true)}
@@ -28,9 +29,14 @@ const Navigation = () => {
         </div>
         <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
           <li>
-            <a className="text-sm text-gray-400 hover:text-gray-500" href="/">
-              Start
-            </a>
+            <Link href="/">
+              <a className="text-sm text-gray-400 hover:text-gray-500">Start</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/profiles/browse">
+              <a className="text-sm text-gray-400 hover:text-gray-500">Browse</a>
+            </Link>
           </li>
         </ul>
         {!session && !loading && (

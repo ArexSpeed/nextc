@@ -14,12 +14,13 @@ const checkedIds = async (userId) => {
 };
 
 export const findMatch = async ({ userId }) => {
+  console.log(userId, 'id in filter');
   const filter = await filterModel.findUnique({
     where: {
       userId
     }
   });
-
+  console.log(filter, 'filter');
   if (!filter) {
     throw new Error('no_filter_set');
   }

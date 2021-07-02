@@ -9,7 +9,7 @@ import getAllTimezones from 'services/timezones/getAll';
 
 export const getServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
-
+  console.log(session.user.email, 'userEmail');
   if (!session) {
     return {
       notFound: true

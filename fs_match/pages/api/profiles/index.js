@@ -12,7 +12,6 @@ const profilesApi = async (req, res) => {
 
         res.status(200).json({ profile });
       } catch (error) {
-        console.log(`error`, error);
         res.status(422).json({ profile: null, error });
       }
       break;
@@ -27,7 +26,9 @@ const profilesApi = async (req, res) => {
           targetUserId: Number(targetUserId)
         });
 
-        res.status(200).json({ hasMatch, targetUser });
+        const nextProfile = await findMatch({ userId });
+
+        res.status(200).json({ hasMatch, targetUser, nextProfile });
       } catch (error) {
         console.log(`error`, error);
         res.status(422).json({ hasMatch: false, targetUser: null, error: error.message });
@@ -43,7 +44,9 @@ const profilesApi = async (req, res) => {
           targetUserId: Number(targetUserId)
         });
 
-        res.status(200).json({ targetUser });
+        const nextProfile = await findMatch({ userId });
+
+        res.status(200).json({ targetUser, nextProfile });
       } catch (error) {
         console.log(`error`, error);
         res.status(422).json({ targetUser: null, error: error.message });

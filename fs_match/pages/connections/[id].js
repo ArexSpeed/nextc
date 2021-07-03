@@ -5,6 +5,7 @@ import apiRoutes from 'utils/apiRoutes';
 import { user } from 'models';
 import { getSession } from 'next-auth/client';
 import useSWR, { mutate } from 'swr';
+import Head from 'next/head';
 
 export const getServerSideProps = async ({ req, params }) => {
   const session = await getSession({ req });
@@ -58,7 +59,7 @@ const MessageForm = ({ conversationId }) => {
   const handleSubmit = async () => {
     await apiRoutes.conversations.message.create(conversationId, { content: msgRef.current.value });
     msgRef.current.value = '';
-    mutate(`/api/conversations/${conversationId}`); //mutate powoduje wykonanie useSwr
+    mutate(`/api/conversations/${conversationId}`);
   };
 
   const handleKey = (e) => {
@@ -91,6 +92,9 @@ export default function Connections({ initConversation, currentUser }) {
 
   return (
     <BaseLayout>
+      <Head>
+        <title>Conversation</title>
+      </Head>
       <div className="w-full px-5 flex flex-col justify-between bg-gree">
         <div className="flex flex-col mt-5">
           {conversation.messages.map((message) => {

@@ -100,49 +100,67 @@ const createFilters = async () => {
   }
 };
 
-const createConversation = async (users) => {
-  await prisma.conversation.create({
-    data: {
-      users: {
-        create: [
-          {
-            user: {
-              connect: {
-                id: users[0].id
-              }
-            }
-          },
-          {
-            user: {
-              connect: {
-                id: users[1].id
-              }
-            }
-          }
-        ]
-      },
-      messages: {
-        create: [
-          {
-            content: 'Hi how are you?',
-            user: {
-              connect: {
-                id: users[0].id
-              }
-            }
-          },
-          {
-            content: 'Im fine thanks!',
-            user: {
-              connect: {
-                id: users[1].id
-              }
-            }
-          }
-        ]
-      }
-    }
+// wrzucenie rozmow dla wybranego uzytkownika
+const createConversations = async (mainUserId) => {
+  let userIds = await prisma.user.findMany({
+    where: {
+      NOT: { id: mainUserId }
+    },
+    select: { id: true }
   });
+  userIds = userIds.map((el) => el.id);
+
+  const chats = [];
+  for (let i = 0; i < 35; i++) {
+    const randomId = userIds[Math.floor(Math.random() * userIds.length)];
+    chats.push(
+      prisma.conversation.create({
+        data: {
+          users: {
+            create: [
+              {
+                user: {
+                  connect: {
+                    id: randomId
+                  }
+                }
+              },
+              {
+                user: {
+                  connect: {
+                    id: mainUserId
+                  }
+                }
+              }
+            ]
+          },
+          messages: {
+            create: [
+              {
+                content: 'Hi how are you?',
+                user: {
+                  connect: {
+                    id: randomId
+                  }
+                }
+              },
+              {
+                content: 'Im fine thanks!',
+                user: {
+                  connect: {
+                    id: mainUserId
+                  }
+                }
+              }
+            ]
+          }
+        }
+      })
+    );
+  }
+
+  // eslint-disable-next-line no-undef
+  await Promise.all(chats);
 };
 
 async function main() {
@@ -150,6 +168,7 @@ async function main() {
   await createTimezones();
   await createUsers();
   await createFilters();
+  await createConversations(4);
 }
 
 main()

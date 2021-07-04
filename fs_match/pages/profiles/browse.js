@@ -9,10 +9,14 @@ import getAllTimezones from 'services/timezones/getAll';
 
 export const getServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
-  console.log(session.user.email, 'userEmail');
+
+  // jesli user nie jest zalgowany to przy wejsci na link przekierowuje do login
   if (!session) {
     return {
-      notFound: true
+      redirect: {
+        destination: `/login`,
+        permanent: false
+      }
     };
   }
 
@@ -23,7 +27,6 @@ export const getServerSideProps = async ({ req }) => {
     select: {
       id: true,
       email: true,
-      //zapamietanie i wyciagniecie danego ostatio wyszukiwanego filtra
       filter: {
         select: {
           skill: true,

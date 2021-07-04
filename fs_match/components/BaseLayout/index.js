@@ -5,12 +5,13 @@ import classNames from 'classnames';
 import useSWR from 'swr';
 import apiRoutes from 'utils/apiRoutes';
 
-const ConnectionsLink = () => {
-  const { data, loading } = useSWR(`/api/conversations/`, apiRoutes.fetcher);
+// isLoggedIn - blokuje wysylanie danych do api jesli user is not logged (oszczedza zasoby)
+const ConnectionsLink = ({ isLoggedIn = false, className }) => {
+  const { data, loading } = useSWR(isLoggedIn ? `/api/conversations` : null, apiRoutes.fetcher);
 
   return (
     <Link href="/connections">
-      <a className="text-sm text-gray-400 hover:text-gray-500">
+      <a className={className}>
         Connections
         {!loading && data?.unread > 0 && ` (${data.unread})`}
       </a>
@@ -21,6 +22,11 @@ const ConnectionsLink = () => {
 const Navigation = () => {
   const [isNavOpen, setNavOpen] = useState(false);
   const [session, loading] = useSession();
+
+  // wylogowanie zawsze do głównej strony
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <section className="container mx-auto">
@@ -54,8 +60,25 @@ const Navigation = () => {
             </Link>
           </li>
           <li>
-            <ConnectionsLink />
+            <ConnectionsLink
+              isLoggedIn={session && !loading}
+              className="text-sm text-gray-400 hover:text-gray-500"
+            />
           </li>
+          {session && !loading && (
+            <li>
+              <Link href="/my-profile">
+                <a className="text-sm text-gray-400 hover:text-gray-500">My profile</a>
+              </Link>
+            </li>
+          )}
+          {session && !loading && (
+            <li>
+              <button onClick={handleLogout} className="text-sm text-gray-400 hover:text-gray-500">
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
         {!session && !loading && (
           <Link href="/login">
@@ -97,11 +120,44 @@ const Navigation = () => {
           <div>
             <ul>
               <li className="mb-1">
-                <a
+                <Link href="/">
+                  <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                    Start
+                  </a>
+                </Link>
+              </li>
+              <li className="mb-1">
+                <Link href="/profiles/browse">
+                  <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                    Browse
+                  </a>
+                </Link>
+              </li>
+              <li className="mb-1">
+                <ConnectionsLink
+                  isLoggedIn={session && !loading}
                   className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
-                  href="/">
-                  Start
-                </a>
+                />
+              </li>
+              <li className="mb-1">
+                <Link href="/profiles/browse">
+                  <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                    Browse
+                  </a>
+                </Link>
+              </li>
+              <li className="mb-1">
+                <ConnectionsLink
+                  isLoggedIn={session && !loading}
+                  className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
+                />
+              </li>
+              <li className="mb-1">
+                <Link href="/my-profile">
+                  <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                    My profile
+                  </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -116,7 +172,9 @@ const Navigation = () => {
               )}
               {session && !loading && (
                 <button
-                  onClick={signOut}
+                  onClick={() => {
+                    signOut({ callbackUrl: '/' });
+                  }}
                   className="w-full block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-gray-500 hover:bg-green-700 rounded-l-xl rounded-t-xl">
                   Logout
                 </button>

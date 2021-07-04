@@ -22,7 +22,7 @@ export const findMatch = async ({ userId }) => {
   });
   console.log(filter, 'filter');
   if (!filter) {
-    throw new Error('no_filter_set');
+    return null; //w przypadku throw Error wykazywalo bledy i blokowalo apke
   }
 
   const ids = await checkedIds(userId); //odfiltrowanie juz sprawdzonych, czyli szukanie tylko po nowych userach

@@ -1,11 +1,33 @@
 import Head from 'next/head';
-import products from '../../products.json';
-import { fromImageToUrl } from '../../utils/urls';
-import { twoDecimals } from '../utils/format';
 
-const product = products[0];
+import { fromImageToUrl, API_URL } from '../../utils/urls';
+import { twoDecimals } from '../../utils/format';
 
-const Product = () => {
+export async function getStaticProps({ params: { slug } }) {
+  const product_res = await fetch(`${API_URL}/products/?slug=${slug}`);
+  const found = await product_res.json();
+
+  return {
+    props: {
+      product: found[0] //cause the API response for filrer is an array
+    }
+  }
+}
+
+export async function getStaticPaths() {
+  // Retrive all the possible paths
+  const products_res = await fetch(`${API_URL}/products/`);
+  const products = await products_res.json();
+  //Return them to NextJS content
+  return {
+    paths: products.map(product => ({
+      params: { slug: String(product.slug) }
+    })),
+    fallback: false //Tells nextjs to show 404 if teh param is not match
+  }
+}
+
+const Product = ({ product }) => {
   return (
     <div>
       <Head>

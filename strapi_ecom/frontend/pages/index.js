@@ -1,12 +1,24 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import products from '../products.json';
 
-import { fromImageToUrl } from '../utils/urls';
+import { fromImageToUrl, API_URL } from '../utils/urls';
 import { twoDecimals } from '../utils/format';
 
-export default function Home() {
+export async function getStaticProps() {
+  //Fetch the products
+  const product_res = await fetch(`${API_URL}/products/`);
+  const products = await product_res.json();
+  //Return the products as props
+  return {
+    props: {
+      products
+    }
+  }
+
+}
+
+export default function Home({ products }) {
   return (
     <div>
       <Head>

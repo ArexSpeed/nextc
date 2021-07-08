@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 
 const Account = () => {
@@ -23,6 +23,7 @@ const Account = () => {
         <meta name="description" content="The account page" />
       </Head>
       <h2>Account page</h2>
+      <p>Logged in as : {user.email}</p>
       <a href="#" onClick={logoutUser}>Logout</a>
     </div>
   )

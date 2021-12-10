@@ -1,33 +1,19 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
+// A. You trying to build pages on build time
+// 20 static routes, 35 dynamic routes (eCommerce store -> 35 products)
 
-export async function getServerSideProps (context) {
+// B. Incrementally/Lazily build website
 
-  context.query // show query parameters aftes ? from url
-  context.params // all in params
+// 35M dynamic routes (/store/[id]) -> ahead of time = 0 pages
+// /store/1 -> getStaticProps (like getServerSideProps)
+// /store/999 -> getStaticProps -> saved for other people, served immediately as static page
 
-  //fetch from db
-  if(!record) {
-    return {
-      notFound: true
-    }
-  }
+export function getStaticProps() {
 
-  const data = await (await fetch('https://google.com').then(t => t.text())).slice(0,200);
-
-  return {
-    redirect: {
-      destination: 'https://google.com',
-      permanent: true // true - status 308, false - 307 and cache disk
-    },
-    props: {
-      data: data
-    }
-  }
 }
 
-// server (SSR) + client (hydration)
 export default function Home(props) {
   const {rows} = props;
   return (

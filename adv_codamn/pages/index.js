@@ -2,31 +2,24 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-//website.com/dynamic -> getServerSideProps
-// website.com/static -> no getServerSideProps
+export async function getStaticProps(context) {
+  console.log(context); // {locales: undefined, locale: undefinded, defaultLocale: undefinded}
 
-// * build:
-//* Mark as SSR -> /dynamic
-//* Mark as static -> /static
+  const db  = await getDB();
+  const userCount = await db.totaluser() // it get one db call and save rest to cache (thanks this it is quick)
+  // db calls, netword request withour being CORS binded, require files with commonjs syntax or dynamic import
 
-
-export async function getServerSideProps (context) {
-  console.log(process.env.SECRET_VARIABLE);
-  console.log("check", process.env.SPECIFICITY_CHECK); // 0 (all in .local will override other)
-
-  const db = await connectToDB();
-  const rows = db.fetchRows();
-
-  //Context (server level control)
-  context.req;
-  context.res;
-  context.res.statusCode = 403; // set own status
-  context.res.write(JSON.stringify({ something: 'cool' }));
-  context.res.end() //finish and status 200
   return {
-    props: {rows}
+    props: {
+      userCount
+    },
+    revalidate: 10 // I will at most generate only 1 page in 10 seconds
   }
 }
+
+// live: 100K/second -> getServerSide -> 100K request/database [BAD]
+
+// live: 100K/second -> getStaticProps (with 1 second revalidate) -> 1 request/second on the DB [AWESOME]
 
 // server (SSR) + client (hydration)
 export default function Home(props) {

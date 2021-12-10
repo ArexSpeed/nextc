@@ -2,7 +2,26 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+//Env convention
+// * .env.local - database, passwords, stripe secret key, do not add to version control
+// These files as a template
+// * .env.development - Stripe client key
+// * .env.production
+
+
+export function getServerSideProps () {
+  console.log(process.env.SECRET_VARIABLE);
+  console.log("check", process.env.SPECIFICITY_CHECK); // 0 (all in .local will override other)
+
+  return {
+    props: {}
+  }
+}
+
+// server (SSR) + client (hydration)
 export default function Home() {
+  console.log("env var", process.env.SECRET_VARIABLE); // not available in browser
+  console.log("env var", process.env.NEXT_PUBLIC_BROWSER_VAR); 
   return (
     <div className={styles.container}>
       <Head>

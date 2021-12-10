@@ -2,26 +2,35 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-//Env convention
-// * .env.local - database, passwords, stripe secret key, do not add to version control
-// These files as a template
-// * .env.development - Stripe client key
-// * .env.production
+//website.com/dynamic -> getServerSideProps
+// website.com/static -> no getServerSideProps
+
+// * build:
+//* Mark as SSR -> /dynamic
+//* Mark as static -> /static
 
 
-export function getServerSideProps () {
+export async function getServerSideProps (context) {
   console.log(process.env.SECRET_VARIABLE);
   console.log("check", process.env.SPECIFICITY_CHECK); // 0 (all in .local will override other)
 
+  const db = await connectToDB();
+  const rows = db.fetchRows();
+
+  //Context (server level control)
+  context.req;
+  context.res;
+  context.res.statusCode = 403; // set own status
+  context.res.write(JSON.stringify({ something: 'cool' }));
+  context.res.end() //finish and status 200
   return {
-    props: {}
+    props: {rows}
   }
 }
 
 // server (SSR) + client (hydration)
-export default function Home() {
-  console.log("env var", process.env.SECRET_VARIABLE); // not available in browser
-  console.log("env var", process.env.NEXT_PUBLIC_BROWSER_VAR); 
+export default function Home(props) {
+  const {rows} = props;
   return (
     <div className={styles.container}>
       <Head>

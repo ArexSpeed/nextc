@@ -48,3 +48,17 @@ Use for development mode in production
 preview set data in api/enable-preview, then in staticProps
 // called everytime in dev mode
 // preview mode is like devmode on production => getStaticProps will be called everytime as log as preview mode is enable
+
+# Image
+ If you use s3 and not optimaze images, the you waste bandwith
+ Your images are heavy / not scaled -> slow for user
+ Image is loadeing when is showed (for scrolling example)
+ - add next.config.js to allow show image from urls, add to whitelist
+ module.exports = {
+  images: {
+    domains: ['example.co', 'another.com']
+  }
+}
+
+Add loader for static sites
+loader could be use in completly static site for compression

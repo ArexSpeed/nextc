@@ -12,7 +12,7 @@ website.com/dynamic -> getServerSideProps
 * Mark as SSR -> /dynamic
 * Mark as static -> /static
 
-# getStaticPropd
+# getStaticProps
  A. You trying to build pages on build time
  20 static routes, 35 dynamic routes (eCommerce store -> 35 products)
 
@@ -27,3 +27,18 @@ website.com/dynamic -> getServerSideProps
  // live: 100K/second -> getServerSide -> 100K request/database [BAD]
 
   // live: 100K/second -> getStaticProps (with 1 second revalidate) -> 1 request/second on the DB [AWESOME]
+
+# getStaticPaths
+ - getStaticPath allow to provide information to next js
+ - on build time next getStaticPahts({ params: { id: 'product-1'} }}) -> HTML + JSON
+ - store all on disk/CDN
+
+ Fallback option on return
+  /shop/product-4 -> with fallback: false -> 404 (we dont want any not included sites)
+  /shop/product-4 -> with fallback: true -> load page and check StaticProps
+  /shop/product-4 -> with fallback: 'blocking -> load page only for first user, rest will have it quickly
+
+  Pros: 'blocking'
+  1. No flashed of loading/loader or missing content
+  Cons:
+  1. The first visitor will have a little delay

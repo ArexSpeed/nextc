@@ -42,3 +42,9 @@ website.com/dynamic -> getServerSideProps
   1. No flashed of loading/loader or missing content
   Cons:
   1. The first visitor will have a little delay
+
+# Preview mode
+Use for development mode in production
+preview set data in api/enable-preview, then in staticProps
+// called everytime in dev mode
+// preview mode is like devmode on production => getStaticProps will be called everytime as log as preview mode is enable

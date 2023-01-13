@@ -1,0 +1,25 @@
+{
+    "name": "Arex Speed",
+    "avatar": "https://res.cloudinary.com/dbpsxmtcb/image/upload/v1648752317/ohdy0x6mz6epwnzmiyg3.png",
+    "links": [
+        {
+            "title": "Website",
+            "href": "https://arex.dev",
+            "image": "https://res.cloudinary.com/dbpsxmtcb/image/upload/v1648752317/ohdy0x6mz6epwnzmiyg3.png"
+        },
+        {
+            "title": "Vercel",
+            "href": "https://vercel.com"
+        }
+    ],
+    "socials": [
+        {
+            "title": "Twitter",
+            "href": "https://twitter.com"
+        },
+        {
+            "title": "Github",
+            "href": "https://github.com"
+        }
+    ]
+}

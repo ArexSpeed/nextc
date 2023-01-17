@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./button";
 import { Container } from "./container";
 import { HamburgerIcon } from "./icons/hamburger";
@@ -10,6 +10,26 @@ import { Logo } from "./icons/logo";
 
 export const Header = () => {
   const [hamburgerMenuIsOpen, setHamburgerMenuIsOpen] = useState(false);
+
+  useEffect(() => {
+    // block scrolling background html while menu is open
+    document
+      .querySelector("html")
+      ?.classList.toggle("overflow-hidden", hamburgerMenuIsOpen);
+  }, [hamburgerMenuIsOpen]);
+
+  useEffect(() => {
+    const closeHamburgerNavigation = () => setHamburgerMenuIsOpen(false);
+
+    window.addEventListener("orientationchange", () => {});
+    window.addEventListener("resize", () => {});
+
+    return () => {
+      window.removeEventListener("orientationchange", closeHamburgerNavigation);
+      window.removeEventListener("resize", closeHamburgerNavigation);
+    };
+  }, [setHamburgerMenuIsOpen]);
+
   return (
     <header className="fixed top-0 left-0 z-10 w-full border-b border-transparent-white backdrop-blur-[12px]">
       <Container className="flex h-navigation-height">

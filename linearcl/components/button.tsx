@@ -37,6 +37,14 @@ export const IconWrapper = ({ children }: { children: React.ReactNode }) => {
   return <span className="icon-wrapper">{children}</span>;
 };
 
+export const Highlight = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => <span className={classNames("highlight", className)}>{children}</span>;
+
 export const Button = ({
   children,
   href,

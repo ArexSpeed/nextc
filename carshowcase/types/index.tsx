@@ -21,6 +21,7 @@ export interface FilterProps {
   model?: string;
   limit?: number;
   fuel?: string;
+  pageNumber?: number;
 }
 
 export interface HomeProps {
@@ -52,17 +53,23 @@ export interface OptionProps {
   value: string;
 }
 
-export interface CustomFilterProps {
-  title: string;
+export interface CustomFilterProps<T> {
   options: OptionProps[];
+  setFilter: (selected: T) => void;
 }
 
 export interface ShowMoreProps {
   pageNumber: number;
   isNext: boolean;
+  setLimit: (limit: number) => void;
 }
 
 export interface SearchManuFacturerProps {
-  manufacturer: string;
-  setManuFacturer: (manufacturer: string) => void;
+  selected: string;
+  setSelected: (selected: string) => void;
+}
+
+export interface SearchBarProps {
+  setManufacturer: (manufacturer: string) => void;
+  setModel: (model: string) => void;
 }

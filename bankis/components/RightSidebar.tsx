@@ -15,35 +15,33 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
         <div className="profile">
           <div className="profile-img">
             <span className="text-5xl font-bold text-blue-500">
-              {user.firstName[0]}
+              {user.name.slice(0, 1)}
             </span>
           </div>
 
           <div className="profile-details">
-            <h1 className="profile-name">
-              {user.firstName} {user.lastName}
-            </h1>
+            <h1 className="profile-name">{user.name}</h1>
             <p className="profile-email">{user.email}</p>
           </div>
         </div>
       </section>
 
       <section className="banks">
-        <div className="flex w-full justify-between">
+        <div className="flex justify-between w-full">
           <h2 className="header-2">My Banks</h2>
           <Link href="/" className="flex gap-2">
             <Image src="/icons/plus.svg" width={20} height={20} alt="plus" />
-            <h2 className="text-14 font-semibold text-gray-600">Add Bank</h2>
+            <h2 className="font-semibold text-gray-600 text-14">Add Bank</h2>
           </Link>
         </div>
 
         {banks?.length > 0 && (
-          <div className="relative flex flex-1 flex-col items-center justify-center gap-5">
+          <div className="relative flex flex-col items-center justify-center flex-1 gap-5">
             <div className="relative z-10">
               <BankCard
                 key={banks[0].$id}
                 account={banks[0]}
-                userName={`${user.firstName} ${user.lastName}`}
+                userName={user.name}
                 showBalance={false}
               />
             </div>
@@ -52,7 +50,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                 <BankCard
                   key={banks[1].$id}
                   account={banks[1]}
-                  userName={`${user.firstName} ${user.lastName}`}
+                  userName={user.name}
                   showBalance={false}
                 />
               </div>
@@ -60,10 +58,10 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
           </div>
         )}
 
-        <div className="mt-10 flex flex-1 flex-col gap-6">
+        <div className="flex flex-col flex-1 gap-6 mt-10">
           <h2 className="header-2">Top categories</h2>
 
-          {/* <div className="space-y-5">
+          {/* <div className='space-y-5'>
             {categories.map((category, index) => (
               <Category key={category.name} category={category} />
             ))}

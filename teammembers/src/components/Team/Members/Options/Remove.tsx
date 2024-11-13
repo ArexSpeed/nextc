@@ -1,3 +1,4 @@
+import CustomButton from "@/components/CustomButton";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useHelpers } from "@/hooks/useHelpers";
 import { toast } from "sonner";
-// import CustomButton from "@/components/CustomButton";
 
 export default function Remove({ user, open, onClose }: any) {
   const { loading, setLoading } = useHelpers();
@@ -40,9 +40,9 @@ export default function Remove({ user, open, onClose }: any) {
           >
             Cancel
           </AlertDialogCancel>
-          {/* <CustomButton
+          <CustomButton
             {...{ label: "Confirm", loading, onClick: removeMember }}
-          /> */}
+          />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

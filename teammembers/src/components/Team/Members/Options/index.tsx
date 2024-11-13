@@ -23,13 +23,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useHelpers } from "@/hooks/useHelpers";
@@ -38,6 +31,7 @@ import Remove from "./Remove";
 export default function DropdownMenuDemo() {
   const { open = false, setOpen, selected, setSelected } = useHelpers();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const menu: any = [
     {
       title: "Remove member",

@@ -5,6 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import Roles from "./Options/Roles";
 import { Badge } from "@/components/ui/badge";
 import Options from "./Options";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const columns: ColumnDef<any>[] = [
@@ -34,11 +36,23 @@ export const columns: ColumnDef<any>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { open, setOpen, loading, setLoading } = useHelpers();
       const role: string = row.getValue("role");
+      const id: string = row.original.id;
 
-      const onRoleChanged = (v: string) => {
+      const onRoleChanged = async (v: string) => {
         try {
           setLoading(true);
-          alert(v);
+          const { data, error } = await supabase
+            .from("tm_team_members")
+            .update({
+              role: v,
+            })
+            .eq("id", id)
+            .select("*");
+
+          if (data) {
+            console.log(data);
+            toast.success("Role updated successfully");
+          }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           throw new Error(error);
